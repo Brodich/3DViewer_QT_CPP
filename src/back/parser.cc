@@ -97,8 +97,7 @@ int get_vertices(FILE* fd, int amount_vertices, double** vertices) {
   return (code);
 }
 
-/// @brief return count vertices in one line obj file f 1 2 4 -> 12 24 41 = 6
-/// symbols
+/// @brief return count vertices in one line obj file f 1 2 4 -> 12 24 41 = 6 symbols
 /// @param pt_str line
 /// @return
 int get_count_vertex_polygon(char* pt_str) {

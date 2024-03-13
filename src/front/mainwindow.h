@@ -2,15 +2,19 @@
 #define MAINWINDOW_H
 
 #include <locale.h>
-//#include "glwidget.h"
 
 #include <QMainWindow>
+#include <QColorDialog>
+#include <QFileDialog>
+#include <QDebug>
+
+//#include "glwidget.h"
 
 #define DIMENTION_COUNT 3
 
-extern "C" {
-#include "../back/parser.h"
-}
+//extern "C" {
+//#include "../back/parser.h"
+//}
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -55,7 +59,9 @@ class MainWindow : public QMainWindow {
   void save_settings(void);
   void restore_settings(void);
 
- private:
+  void on_line_width_slider_valueChanged(int value);
+
+private:
   Ui::MainWindow *ui;
 };
 #endif  // MAINWINDOW_H

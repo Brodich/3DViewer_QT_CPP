@@ -5,12 +5,6 @@
 #include <QOpenGLWidget>
 #include <QtWidgets>
 
-#include <QDebug>
-#include <QFileInfo>
-#include <QMouseEvent>
-#include <QTimer>
-#include <QWidget>
-
 #define GL_SILENCE_DEPRECATION
 
 #include "../back/parser.h"
@@ -22,11 +16,15 @@ class glwidget : public QOpenGLWidget {
  public:
   glwidget(QWidget* parent = NULL) : QOpenGLWidget(parent) {}
 
+//  void  ChangeBackColor(QColor color);
+//  void  ChangeLineColor(QColor color);
+//  void  ChangeVertexColor(QColor color);
+
   using QOpenGLWidget::QOpenGLWidget;
   void paint();
 
-  data_t parse_data = {0, 0};
-  polygon_t polygons = {0, 0};
+  data_t parse_data = {0};
+  polygon_t polygons = {0};
   double* vertices = NULL;
   double size = 1;
 
@@ -43,7 +41,12 @@ class glwidget : public QOpenGLWidget {
 
   QSettings setting;
 
-  float back_r = 0.9f, back_g = 0.7f, back_b = 0.941f;
+//  QColor color_back;
+//  QColor color_line;
+//  QColor color_vertex;
+
+//  float back_r = 0.9f, back_g = 0.7f, back_b = 0.941f;
+  float back_r = 0.0f, back_g = 0.0f, back_b = 0.0f;
   float line_r = 1.0f, line_g = 1.0f, line_b = 1.0f;
   float vertex_r = 1.0f, vertex_g = 1.0f, vertex_b = 1.0f;
 

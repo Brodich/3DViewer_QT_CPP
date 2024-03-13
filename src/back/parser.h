@@ -1,5 +1,5 @@
-#ifndef PARSER_H
-#define PARSER_H
+#ifndef CPP_3DViewer_v2_Model_H_
+#define CPP_3DViewer_v2_Model_H_
 
 #include <math.h>
 #include <stdio.h>
@@ -9,6 +9,10 @@
 #define SIZE_BUFFER 512
 #define ERROR_FILE 1
 #define PARSE_OK 0
+
+namespace s21 {
+
+class Model {
 
 typedef struct facets {
   int* vertices;
@@ -48,4 +52,7 @@ typedef enum Code_errors {
   FAIL = -1
 } Error_e;
 
-#endif
+};
+}
+
+#endif // CPP_3DViewer_v2_Model_H_

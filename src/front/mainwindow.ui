@@ -209,7 +209,7 @@
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>500</number>
+        <number>100</number>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -222,7 +222,7 @@
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>500</number>
+        <number>100</number>
        </property>
       </widget>
      </item>
@@ -706,19 +706,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>120</y>
-      <width>201</width>
-      <height>121</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
    <zorder>label_10</zorder>
    <zorder>color_back</zorder>
    <zorder>color_line</zorder>
@@ -731,7 +718,6 @@
    <zorder>groupBox_2</zorder>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_5</zorder>
-   <zorder>pushButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -739,7 +725,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
