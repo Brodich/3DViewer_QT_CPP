@@ -6,9 +6,10 @@
 #include <QtWidgets>
 
 #define GL_SILENCE_DEPRECATION
+#define DIMENTION_COUNT 3
 
 #include "../back/parser.h"
-#include "mainwindow.h"
+//#include "mainwindow.h"
 
 class glwidget : public QOpenGLWidget {
   Q_OBJECT
@@ -23,8 +24,8 @@ class glwidget : public QOpenGLWidget {
   using QOpenGLWidget::QOpenGLWidget;
   void paint();
 
-  data_t parse_data = {0};
-  polygon_t polygons = {0};
+  s21::Model::data_t parse_data = {0};
+  s21::Model::polygon_t polygons = {0};
   double* vertices = NULL;
   double size = 1;
 

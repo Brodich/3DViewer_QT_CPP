@@ -4,7 +4,7 @@
 /// @param amount_vertices
 /// @param vertices array vectors
 /// @param value on what need move
-void translateX(int amount_vertices, double** vertices, double value) {
+void s21::Model::translateX(int amount_vertices, double** vertices, double value) {
   int i = 0;
   int j = 0;
   while (i < amount_vertices) {
@@ -18,7 +18,7 @@ void translateX(int amount_vertices, double** vertices, double value) {
 /// @param amount_vertices
 /// @param vertices array vectors
 /// @param value on what need move
-void translateY(int amount_vertices, double** vertices, double value) {
+void s21::Model::translateY(int amount_vertices, double** vertices, double value) {
   int i = 0;
   int j = 1;
   while (i < amount_vertices) {
@@ -32,7 +32,7 @@ void translateY(int amount_vertices, double** vertices, double value) {
 /// @param amount_vertices
 /// @param vertices array vectors
 /// @param value on what need move
-void translateZ(int amount_vertices, double** vertices, double value) {
+void s21::Model::translateZ(int amount_vertices, double** vertices, double value) {
   int i = 0;
   int j = 2;
   while (i < amount_vertices) {
@@ -46,7 +46,7 @@ void translateZ(int amount_vertices, double** vertices, double value) {
 /// @param amount_vertices
 /// @param vertices array vectors
 /// @param angle how far to turn
-void rotateX(int amount_vertices, double** vertices, double angle) {
+void s21::Model::rotateX(int amount_vertices, double** vertices, double angle) {
   int i = 0;
   int xyz = 0;
   double rot = angle * M_PI / 180;
@@ -71,7 +71,7 @@ void rotateX(int amount_vertices, double** vertices, double angle) {
 /// @param amount_vertices
 /// @param vertices array vectors
 /// @param angle how far to turn
-void rotateY(int amount_vertices, double** vertices, double angle) {
+void s21::Model::rotateY(int amount_vertices, double** vertices, double angle) {
   int i = 0;
   int xyz = 0;
   double rot = angle * M_PI / 180;
@@ -96,7 +96,7 @@ void rotateY(int amount_vertices, double** vertices, double angle) {
 /// @param amount_vertices
 /// @param vertices array vectors
 /// @param angle how far to turn
-void rotateZ(int amount_vertices, double** vertices, double angle) {
+void s21::Model::rotateZ(int amount_vertices, double** vertices, double angle) {
   int i = 0;
   int xyz = 0;
   double rot = angle * M_PI / 180;
@@ -121,7 +121,7 @@ void rotateZ(int amount_vertices, double** vertices, double angle) {
 /// @param amount_vertices
 /// @param vertices
 /// @param scale
-void scale_shape(int amount_vertices, double** vertices, int scale) {
+void s21::Model::ScaleShape(int amount_vertices, double** vertices, int scale) {
   int i = 0;
 
   while (i < amount_vertices * 3) {
@@ -134,7 +134,7 @@ void scale_shape(int amount_vertices, double** vertices, int scale) {
 /// @param amount_vertices
 /// @param vertices
 /// @param scale
-void divide_shape(int amount_vertices, double** vertices, int scale) {
+void s21::Model::DivideShape(int amount_vertices, double** vertices, int scale) {
   int i = 0;
 
   while (i < amount_vertices * 3) {

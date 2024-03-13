@@ -4,7 +4,7 @@
 /// @param fd open file descriptor
 /// @param amount_polygons
 /// @param polygons vertecies what needs to connect
-void get_polygons(FILE* fd, int amount_polygons, polygon_t* polygons) {
+void s21::Model::GetPolygons(FILE* fd, int amount_polygons, polygon_t* polygons) {
   int vertex = 0;
   Error_e flag = SUCCESS;
   int first_vertex_polygon = 0;
@@ -21,7 +21,7 @@ void get_polygons(FILE* fd, int amount_polygons, polygon_t* polygons) {
     getline(&line, &length, fd);
     pt_line = line;
     if (line[0] == 'f' && line[1] == ' ') {
-      vertex_in_facet = get_count_vertex_polygon(line);
+      vertex_in_facet = GetCountVertexPolygon(line);
       polygons->number_of_vertices += vertex_in_facet;
       if (polygons->number_of_vertices > 0)
         polygons->vertices = (int*)realloc(
@@ -63,7 +63,7 @@ void get_polygons(FILE* fd, int amount_polygons, polygon_t* polygons) {
 /// @param amount_vertices
 /// @param vertices array coordinates xyz
 /// @return code errors
-int get_vertices(FILE* fd, int amount_vertices, double** vertices) {
+int s21::Model::GetVertices(FILE* fd, int amount_vertices, double** vertices) {
   Error_e code = SUCCESS;
   size_t length = 512;
   char* line = (char*)calloc(SIZE_BUFFER, sizeof(char));
@@ -100,7 +100,7 @@ int get_vertices(FILE* fd, int amount_vertices, double** vertices) {
 /// @brief return count vertices in one line obj file f 1 2 4 -> 12 24 41 = 6 symbols
 /// @param pt_str line
 /// @return
-int get_count_vertex_polygon(char* pt_str) {
+int s21::Model::GetCountVertexPolygon(char* pt_str) {
   int count = 0;
   while (*pt_str != 0 && *pt_str != '\n' && *pt_str != -1) {
     if (*pt_str >= '0' && *pt_str <= '9') {
@@ -121,7 +121,7 @@ int get_count_vertex_polygon(char* pt_str) {
 /// @brief open file and count vertices(v) and polygons(f)
 /// @param parse_data struct count (v) and (f) in obj file
 /// @param pathtofile path to file
-int get_parse_data(data_t* parse_data, const char* pathtofile) {
+int s21::Model::GetParseData(data_t* parse_data, const char* pathtofile) {
   FILE* fd;
   parse_data->amount_polygons = 0;
   parse_data->amount_vertices = 0;
@@ -149,7 +149,7 @@ int get_parse_data(data_t* parse_data, const char* pathtofile) {
 /// @param vertices
 /// @param amount_polygons
 /// @return
-double get_max_vector(double* vertices, int amount_polygons) {
+double s21::Model::GetMaxVector(double* vertices, int amount_polygons) {
   double max = 1;
   int i = 0;
 

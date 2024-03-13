@@ -9,8 +9,9 @@
 #include <QDebug>
 
 //#include "glwidget.h"
+#include "../back/parser.h"
 
-#define DIMENTION_COUNT 3
+//#define DIMENTION_COUNT 3
 
 //extern "C" {
 //#include "../back/parser.h"

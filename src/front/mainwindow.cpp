@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
-  data_t parse_data = {0};
+//  data_t parse_data = {0};
   QSettings settings("Team21", "3DViewer1.0");
   //  char const* pathtofile =
   //      "../src/assets/square.obj";
@@ -198,6 +198,7 @@ void MainWindow::on_open_file_clicked() {
   QString filePath = QFileDialog::getOpenFileName(
       this, "Open File", QDir::homePath(), "All Files (*.obj)");
 //  restore_settings();
+  s21::Model business_logic;
 
   std::string stdstrPath = filePath.toStdString();
   const char* pathtofile = stdstrPath.c_str();
@@ -225,16 +226,16 @@ void MainWindow::on_open_file_clicked() {
       ui->label_polygons->setText(
           QString::number(ui->modelWindow->parse_data.amount_polygons));
 
-      get_parse_data(&ui->modelWindow->parse_data, pathtofile);
-      get_vertices(fd, ui->modelWindow->parse_data.amount_vertices,
+      business_logic.GetParseData(&ui->modelWindow->parse_data, pathtofile);
+      business_logic.GetVertices(fd, ui->modelWindow->parse_data.amount_vertices,
                    &ui->modelWindow->vertices);
-      get_polygons(fd, ui->modelWindow->parse_data.amount_polygons,
+      business_logic.GetPolygons(fd, ui->modelWindow->parse_data.amount_polygons,
                    &ui->modelWindow->polygons);
 
       fclose(fd);
 
       ui->modelWindow->size =
-          get_max_vector(ui->modelWindow->vertices,
+          business_logic.GetMaxVector(ui->modelWindow->vertices,
                          ui->modelWindow->parse_data.amount_vertices) *
           3.;
 
@@ -243,27 +244,31 @@ void MainWindow::on_open_file_clicked() {
 }
 
 void MainWindow::on_translate_x_valueChanged(int arg1) {
-  translateX(ui->modelWindow->parse_data.amount_vertices,
+    s21::Model business_logic;
+
+  business_logic.translateX(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, -ui->modelWindow->xTrans);
-  translateX(ui->modelWindow->parse_data.amount_vertices,
+  business_logic.translateX(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, ui->translate_x->value());
   ui->modelWindow->xTrans = ui->translate_x->value();
   ui->modelWindow->update();
 }
 
 void MainWindow::on_translate_y_valueChanged(int arg1) {
-  translateY(ui->modelWindow->parse_data.amount_vertices,
+    s21::Model business_logic;
+  business_logic.translateY(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, -ui->modelWindow->yTrans);
-  translateY(ui->modelWindow->parse_data.amount_vertices,
+  business_logic.translateY(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, ui->translate_y->value());
   ui->modelWindow->yTrans = ui->translate_y->value();
   ui->modelWindow->update();
 }
 
 void MainWindow::on_translate_z_valueChanged(int arg1) {
-  translateZ(ui->modelWindow->parse_data.amount_vertices,
+    s21::Model business_logic;
+  business_logic.translateZ(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, -ui->modelWindow->zTrans);
-  translateZ(ui->modelWindow->parse_data.amount_vertices,
+  business_logic.translateZ(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, ui->translate_z->value());
   ui->modelWindow->zTrans = ui->translate_z->value();
   ui->modelWindow->update();
@@ -271,36 +276,40 @@ void MainWindow::on_translate_z_valueChanged(int arg1) {
 
 // rotate
 void MainWindow::on_rotate_x_valueChanged(int arg1) {
-  rotateX(ui->modelWindow->parse_data.amount_vertices,
+    s21::Model business_logic;
+  business_logic.rotateX(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, -ui->modelWindow->xRot);
-  rotateX(ui->modelWindow->parse_data.amount_vertices,
+  business_logic.rotateX(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, ui->rotate_x->value());
   ui->modelWindow->xRot = ui->rotate_x->value();
   ui->modelWindow->update();
 }
 
 void MainWindow::on_rotate_y_valueChanged(int arg1) {
-  rotateY(ui->modelWindow->parse_data.amount_vertices,
+    s21::Model business_logic;
+  business_logic.rotateY(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, -ui->modelWindow->yRot);
-  rotateY(ui->modelWindow->parse_data.amount_vertices,
+  business_logic.rotateY(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, ui->rotate_y->value());
   ui->modelWindow->yRot = ui->rotate_y->value();
   ui->modelWindow->update();
 }
 
 void MainWindow::on_rotate_z_valueChanged(int arg1) {
-  rotateZ(ui->modelWindow->parse_data.amount_vertices,
+    s21::Model business_logic;
+  business_logic.rotateZ(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, -ui->modelWindow->zRot);
-  rotateZ(ui->modelWindow->parse_data.amount_vertices,
+  business_logic.rotateZ(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, ui->rotate_z->value());
   ui->modelWindow->zRot = ui->rotate_z->value();
   ui->modelWindow->update();
 }
 
 void MainWindow::on_scale_valueChanged(int arg1) {
-  divide_shape(ui->modelWindow->parse_data.amount_vertices,
+    s21::Model business_logic;
+  business_logic.DivideShape(ui->modelWindow->parse_data.amount_vertices,
                &ui->modelWindow->vertices, ui->modelWindow->scale);
-  scale_shape(ui->modelWindow->parse_data.amount_vertices,
+  business_logic.ScaleShape(ui->modelWindow->parse_data.amount_vertices,
               &ui->modelWindow->vertices, ui->scale->value());
   ui->modelWindow->scale = ui->scale->value();
   ui->modelWindow->update();
