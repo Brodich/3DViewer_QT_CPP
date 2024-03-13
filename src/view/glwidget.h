@@ -8,7 +8,7 @@
 #define GL_SILENCE_DEPRECATION
 #define DIMENTION_COUNT 3
 
-#include "../back/parser.h"
+#include "../model/parser.h"
 //#include "mainwindow.h"
 
 class glwidget : public QOpenGLWidget {

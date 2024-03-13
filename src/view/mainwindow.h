@@ -9,7 +9,7 @@
 #include <QDebug>
 
 //#include "glwidget.h"
-#include "../back/parser.h"
+#include "../model/parser.h"
 
 //#define DIMENTION_COUNT 3
 
