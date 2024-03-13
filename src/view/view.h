@@ -9,7 +9,8 @@
 #include <QDebug>
 
 //#include "glwidget.h"
-#include "../model/parser.h"
+//#include "../model/parser.h"
+#include "../controller/controller.h"
 
 //#define DIMENTION_COUNT 3
 
@@ -19,16 +20,19 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class MainWindow;
+class View;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+namespace s21 {
+class View : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(QWidget *parent = nullptr);
-  ~MainWindow();
+  View(QWidget *parent = nullptr);
+  ~View();
+
+  void SetController(s21::Controller* controll) { m_controll = controll;}
  private slots:
   void on_open_file_clicked();
 
@@ -63,6 +67,8 @@ class MainWindow : public QMainWindow {
   void on_line_width_slider_valueChanged(int value);
 
 private:
-  Ui::MainWindow *ui;
+  Ui::View *ui;
+   s21::Controller* m_controll;
 };
+} // namespace s21
 #endif  // MAINWINDOW_H

@@ -1,11 +1,14 @@
 #include <QApplication>
 
-#include "mainwindow.h"
+#include "view.h"
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
-  MainWindow w;
-  w.setWindowTitle("3DViewer");
+  s21::Model business_logic;
+  s21::Controller control(&business_logic);
+  s21::View w;
+  w.SetController(&control);
+//  w.setWindowTitle("3DViewer");
   w.show();
   // Need for double number dot instead of comma
   setlocale(LC_NUMERIC, "C");

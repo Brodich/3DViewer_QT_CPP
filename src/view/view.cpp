@@ -1,9 +1,9 @@
-#include "mainwindow.h"
+#include "view.h"
 
-#include "./ui_mainwindow.h"
+#include "./ui_view.h"
 
-MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+s21::View::View(QWidget* parent)
+    : QMainWindow(parent), ui(new Ui::View) {
   ui->setupUi(this);
 
 //  data_t parse_data = {0};
@@ -72,7 +72,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 }
 
-MainWindow::~MainWindow() {
+s21::View::~View() {
   save_settings();
   free(ui->modelWindow->vertices);
   free(ui->modelWindow->polygons.vertices);
@@ -80,7 +80,7 @@ MainWindow::~MainWindow() {
   delete ui;
 }
 
-void MainWindow::save_settings() {
+void s21::View::save_settings() {
   ui->modelWindow->setting.setValue("translate_x", ui->translate_x->value());
   ui->modelWindow->setting.setValue("translate_y", ui->translate_y->value());
   ui->modelWindow->setting.setValue("translate_z", ui->translate_z->value());
@@ -126,7 +126,7 @@ void MainWindow::save_settings() {
   ui->modelWindow->setting.setValue("vertex_blue", ui->modelWindow->vertex_b);
 }
 
-void MainWindow::restore_settings() {
+void s21::View::restore_settings() {
 //  ui->translate_x->setValue(
 //      ui->modelWindow->setting.value("translate_x").toInt());
 //  ui->translate_y->setValue(
@@ -194,11 +194,11 @@ void MainWindow::restore_settings() {
   ui->modelWindow->update();
 }
 
-void MainWindow::on_open_file_clicked() {
+void s21::View::on_open_file_clicked() {
   QString filePath = QFileDialog::getOpenFileName(
       this, "Open File", QDir::homePath(), "All Files (*.obj)");
 //  restore_settings();
-  s21::Model business_logic;
+//  s21::Controller controll;
 
   std::string stdstrPath = filePath.toStdString();
   const char* pathtofile = stdstrPath.c_str();
@@ -226,16 +226,16 @@ void MainWindow::on_open_file_clicked() {
       ui->label_polygons->setText(
           QString::number(ui->modelWindow->parse_data.amount_polygons));
 
-      business_logic.GetParseData(&ui->modelWindow->parse_data, pathtofile);
-      business_logic.GetVertices(fd, ui->modelWindow->parse_data.amount_vertices,
+      m_controll->GetParseData(&ui->modelWindow->parse_data, pathtofile);
+      m_controll->GetVertices(fd, ui->modelWindow->parse_data.amount_vertices,
                    &ui->modelWindow->vertices);
-      business_logic.GetPolygons(fd, ui->modelWindow->parse_data.amount_polygons,
+      m_controll->GetPolygons(fd, ui->modelWindow->parse_data.amount_polygons,
                    &ui->modelWindow->polygons);
 
       fclose(fd);
 
       ui->modelWindow->size =
-          business_logic.GetMaxVector(ui->modelWindow->vertices,
+          m_controll->GetMaxVector(ui->modelWindow->vertices,
                          ui->modelWindow->parse_data.amount_vertices) *
           3.;
 
@@ -243,90 +243,90 @@ void MainWindow::on_open_file_clicked() {
   }
 }
 
-void MainWindow::on_translate_x_valueChanged(int arg1) {
-    s21::Model business_logic;
+void s21::View::on_translate_x_valueChanged(int arg1) {
+    s21::Model m_controll;
 
-  business_logic.translateX(ui->modelWindow->parse_data.amount_vertices,
+  m_controll.translateX(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, -ui->modelWindow->xTrans);
-  business_logic.translateX(ui->modelWindow->parse_data.amount_vertices,
+  m_controll.translateX(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, ui->translate_x->value());
   ui->modelWindow->xTrans = ui->translate_x->value();
   ui->modelWindow->update();
 }
 
-void MainWindow::on_translate_y_valueChanged(int arg1) {
-    s21::Model business_logic;
-  business_logic.translateY(ui->modelWindow->parse_data.amount_vertices,
+void s21::View::on_translate_y_valueChanged(int arg1) {
+    s21::Model m_controll;
+  m_controll.translateY(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, -ui->modelWindow->yTrans);
-  business_logic.translateY(ui->modelWindow->parse_data.amount_vertices,
+  m_controll.translateY(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, ui->translate_y->value());
   ui->modelWindow->yTrans = ui->translate_y->value();
   ui->modelWindow->update();
 }
 
-void MainWindow::on_translate_z_valueChanged(int arg1) {
-    s21::Model business_logic;
-  business_logic.translateZ(ui->modelWindow->parse_data.amount_vertices,
+void s21::View::on_translate_z_valueChanged(int arg1) {
+    s21::Model m_controll;
+  m_controll.translateZ(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, -ui->modelWindow->zTrans);
-  business_logic.translateZ(ui->modelWindow->parse_data.amount_vertices,
+  m_controll.translateZ(ui->modelWindow->parse_data.amount_vertices,
              &ui->modelWindow->vertices, ui->translate_z->value());
   ui->modelWindow->zTrans = ui->translate_z->value();
   ui->modelWindow->update();
 }
 
 // rotate
-void MainWindow::on_rotate_x_valueChanged(int arg1) {
-    s21::Model business_logic;
-  business_logic.rotateX(ui->modelWindow->parse_data.amount_vertices,
+void s21::View::on_rotate_x_valueChanged(int arg1) {
+    s21::Model m_controll;
+  m_controll.rotateX(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, -ui->modelWindow->xRot);
-  business_logic.rotateX(ui->modelWindow->parse_data.amount_vertices,
+  m_controll.rotateX(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, ui->rotate_x->value());
   ui->modelWindow->xRot = ui->rotate_x->value();
   ui->modelWindow->update();
 }
 
-void MainWindow::on_rotate_y_valueChanged(int arg1) {
-    s21::Model business_logic;
-  business_logic.rotateY(ui->modelWindow->parse_data.amount_vertices,
+void s21::View::on_rotate_y_valueChanged(int arg1) {
+    s21::Model m_controll;
+  m_controll.rotateY(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, -ui->modelWindow->yRot);
-  business_logic.rotateY(ui->modelWindow->parse_data.amount_vertices,
+  m_controll.rotateY(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, ui->rotate_y->value());
   ui->modelWindow->yRot = ui->rotate_y->value();
   ui->modelWindow->update();
 }
 
-void MainWindow::on_rotate_z_valueChanged(int arg1) {
-    s21::Model business_logic;
-  business_logic.rotateZ(ui->modelWindow->parse_data.amount_vertices,
+void s21::View::on_rotate_z_valueChanged(int arg1) {
+    s21::Model m_controll;
+  m_controll.rotateZ(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, -ui->modelWindow->zRot);
-  business_logic.rotateZ(ui->modelWindow->parse_data.amount_vertices,
+  m_controll.rotateZ(ui->modelWindow->parse_data.amount_vertices,
           &ui->modelWindow->vertices, ui->rotate_z->value());
   ui->modelWindow->zRot = ui->rotate_z->value();
   ui->modelWindow->update();
 }
 
-void MainWindow::on_scale_valueChanged(int arg1) {
-    s21::Model business_logic;
-  business_logic.DivideShape(ui->modelWindow->parse_data.amount_vertices,
+void s21::View::on_scale_valueChanged(int arg1) {
+    s21::Model m_controll;
+  m_controll.DivideShape(ui->modelWindow->parse_data.amount_vertices,
                &ui->modelWindow->vertices, ui->modelWindow->scale);
-  business_logic.ScaleShape(ui->modelWindow->parse_data.amount_vertices,
+  m_controll.ScaleShape(ui->modelWindow->parse_data.amount_vertices,
               &ui->modelWindow->vertices, ui->scale->value());
   ui->modelWindow->scale = ui->scale->value();
   ui->modelWindow->update();
 }
 
-void MainWindow::on_projection_type_central_toggled(bool checked) {
+void s21::View::on_projection_type_central_toggled(bool checked) {
   ui->modelWindow->central_type = !ui->modelWindow->central_type;
   ui->modelWindow->update();
 }
 
-void MainWindow::on_line_width_valueChanged(int arg1) {
+void s21::View::on_line_width_valueChanged(int arg1) {
   ui->modelWindow->line_width = ui->line_width->value();
   ui->modelWindow->update();
 
 }
 
-void MainWindow::on_color_back_clicked() {
+void s21::View::on_color_back_clicked() {
 //    QColorDialog color_dialog;
 //    color_dialog.setWindowTitle("Vertex color");
 //    if (color_dialog.exec() == QColorDialog::Accepted) {
@@ -341,7 +341,7 @@ void MainWindow::on_color_back_clicked() {
     }
 }
 
-void MainWindow::on_color_line_clicked() {
+void s21::View::on_color_line_clicked() {
 //    QColorDialog color_dialog;
 //    color_dialog.setWindowTitle("Vertex color");
 //    if (color_dialog.exec() == QColorDialog::Accepted) {
@@ -357,7 +357,7 @@ void MainWindow::on_color_line_clicked() {
   }
 }
 
-void MainWindow::on_color_vertex_clicked() {
+void s21::View::on_color_vertex_clicked() {
 //    QColorDialog color_dialog;
 //    color_dialog.setWindowTitle("Vertex color");
 //    if (color_dialog.exec() == QColorDialog::Accepted) {
@@ -372,7 +372,7 @@ void MainWindow::on_color_vertex_clicked() {
   }
 }
 
-void MainWindow::on_line_style_solid_toggled(bool checked) {
+void s21::View::on_line_style_solid_toggled(bool checked) {
   ui->modelWindow->solid_line = !ui->modelWindow->solid_line;
   if (ui->modelWindow->solid_line == true) {
     ui->text_line_width->setText("Line width");
@@ -382,29 +382,29 @@ void MainWindow::on_line_style_solid_toggled(bool checked) {
   ui->modelWindow->update();
 }
 
-void MainWindow::on_vertex_size_valueChanged(int arg1) {
+void s21::View::on_vertex_size_valueChanged(int arg1) {
   ui->modelWindow->size_vertex = ui->vertex_size->value();
   ui->modelWindow->update();
 
 }
 
-void MainWindow::on_vertex_style_none_clicked() {
+void s21::View::on_vertex_style_none_clicked() {
   ui->modelWindow->vertex_style = 1;
   ui->modelWindow->update();
 }
 
-void MainWindow::on_vertex_style_circle_clicked() {
+void s21::View::on_vertex_style_circle_clicked() {
   ui->modelWindow->vertex_style = 2;
   ui->modelWindow->update();
 }
 
-void MainWindow::on_vertex_style_square_clicked() {
+void s21::View::on_vertex_style_square_clicked() {
   ui->modelWindow->vertex_style = 3;
   ui->modelWindow->update();
 //  printf("fd\n");
 }
 
-void MainWindow::on_screenshot_clicked() {
+void s21::View::on_screenshot_clicked() {
   QPixmap screenshot = ui->modelWindow->grab();
   QString filePath = QFileDialog::getSaveFileName(
       nullptr, "Выберите путь сохранения", QDir::homePath(), "Все файлы (*.*)");
@@ -413,7 +413,7 @@ void MainWindow::on_screenshot_clicked() {
   }
 }
 
-void MainWindow::on_line_width_slider_valueChanged(int value)
+void s21::View::on_line_width_slider_valueChanged(int value)
 {
     ui->modelWindow->line_width = value;
     ui->modelWindow->update();

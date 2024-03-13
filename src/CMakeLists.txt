@@ -29,9 +29,9 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS)
 set(PROJECT_SOURCES
 
         view/main.cpp
-        view/mainwindow.cpp
-        view/mainwindow.h
-        view/mainwindow.ui
+        view/view.cpp
+        view/view.h
+        view/view.ui
 
         view/glwidget.h
         view/glwidget.cpp
