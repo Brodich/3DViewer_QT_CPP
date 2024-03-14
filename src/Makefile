@@ -1,10 +1,15 @@
+CC = g++ -Wall
 MKFILE_PATH := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 TARGET_DIR  := $(MKFILE_PATH)/build
 TARGET      := $(TARGET_DIR)/3DViewer
 SRC_DIR     := $(MKFILE_PATH)
-SRC_STRIPPED:= back/parser.c 
+SRC_STRIPPED:= model/parser.c 
 SRC         := $(SRC_DIR)/$(SRC_STRIPPED)
 CFLAGS      := --debug -Wall -Wextra -g
+TEST_NAME = test_model
+OTHER_LIBS = -lgtest -lgcov -fno-elide-constructors  
+GCOVFLAGS = -L. --coverage
+
 
 
 ifeq ($(OS), Linux)
@@ -21,10 +26,8 @@ all: clang install
 	gcc $(SRC) $(CFLAGS) -o $(TARGET)
 	build/3DViewer
 
-
-%.o: %.c
+%.o: %.cc
 	$(CC) -c -o $@ $<
-
 
 info:
 	@echo -e "MKFILE_PATH := $(MKFILE_PATH)"
@@ -50,21 +53,25 @@ uninstall:
 	rm -rf build/ *.tar.gz
 
 .PHONY: test 
-tests: back/parser.o back/tests/test.o
-	-@gcc back/parser.o back/tests/test.o $(FLAGS) -o test
-	./test
+# tests: model/parser.o tests/$(TEST_NAME).o
+tests: clang
+	$(CC) model/parser.cc tests/$(TEST_NAME).cc $(FLAGS) $(OTHER_LIBS) -o tests/$(TEST_NAME)
+	tests/$(TEST_NAME)
+# -@$(CC) model/parser.o tests/$(TEST_NAME).o $(FLAGS) -o $(TEST_NAME)
 
 
-gcov_report: back/parser.c back/tests/test.c
-	gcc  back/parser.c back/tests/test.c $(FLAGS) --coverage -o test
+# $(CC)  model/parser.cc tests/$(TEST_NAME).cc $(FLAGS) --coverage -o $(TEST_NAME)
+gcov_report: clang
+	$(CC) -w model/parser.cc tests/$(TEST_NAME).cc  $(OTHER_LIBS) $(GCOVFLAGS) -o test
 	./test
-	lcov -t "test" -o test.info -c -d .
-	genhtml -o report test.info
 ifeq ($(OS), Linux)
-	xdg-open report/index.html
-else
-	open report/index.html
+	lcov --no-external -t test -o rep.info -c -d .
+else 
+	lcov --ignore-errors mismatch --no-external -t test -o rep.info -c -d .
 endif
+	genhtml -o report rep.info
+	open ./report/index.html
+	rm -rf *.gcda *.gcno *.info
 
 dvi:
 	cd documentation && \
@@ -72,16 +79,18 @@ dvi:
 	open html/index.html
 
 dist: clean
-	tar -cvzf 3DViewer.tar.gz Makefile CMakeLists.txt back/ front/ 
+	tar -cvzf 3DViewer.tar.gz Makefile CMakeLists.txt model/ view/ 
 
 clang:
-	clang-format -style=google -i front/*.cpp front/*.h
-	clang-format -style=google -i back/*.c back/*.h
+	-@clang-format -style=google -i view/*.cc view/*.h
+	-@clang-format -style=google -i controller/*.h
+	-@clang-format -style=google -i model/*.cc model/*.h
+	-@clang-format -style=google -i tests/*.cc
 
 clean:
-	find . -type f -name "*.o" -exec rm -f {} +
-	find . -type f -name "*.txt.*" -exec rm -f {} +
-	rm -rf ../build*
-	rm -rf build/
-	rm -rf ./test
-	rm -rf report *.gcda *.gcno *.info
+	-@find . -type f -name "*.o" -exec rm -f {} +
+	-@find . -type f -name "*.txt.*" -exec rm -f {} +
+	-@rm -rf ../build*
+	-@rm -rf build/
+	-@rm tests/$(TEST_NAME) test
+	-@rm -rf report *.gcda *.gcno *.info

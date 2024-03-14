@@ -17,9 +17,9 @@ class glwidget : public QOpenGLWidget {
  public:
   glwidget(QWidget* parent = NULL) : QOpenGLWidget(parent) {}
 
-//  void  ChangeBackColor(QColor color);
-//  void  ChangeLineColor(QColor color);
-//  void  ChangeVertexColor(QColor color);
+  //  void  ChangeBackColor(QColor color);
+  //  void  ChangeLineColor(QColor color);
+  //  void  ChangeVertexColor(QColor color);
 
   using QOpenGLWidget::QOpenGLWidget;
   void paint();
@@ -42,11 +42,11 @@ class glwidget : public QOpenGLWidget {
 
   QSettings setting;
 
-//  QColor color_back;
-//  QColor color_line;
-//  QColor color_vertex;
+  //  QColor color_back;
+  //  QColor color_line;
+  //  QColor color_vertex;
 
-//  float back_r = 0.9f, back_g = 0.7f, back_b = 0.941f;
+  //  float back_r = 0.9f, back_g = 0.7f, back_b = 0.941f;
   float back_r = 0.0f, back_g = 0.0f, back_b = 0.0f;
   float line_r = 1.0f, line_g = 1.0f, line_b = 1.0f;
   float vertex_r = 1.0f, vertex_g = 1.0f, vertex_b = 1.0f;

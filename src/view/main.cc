@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
   s21::Controller control(&business_logic);
   s21::View w;
   w.SetController(&control);
-//  w.setWindowTitle("3DViewer");
+  //  w.setWindowTitle("3DViewer");
   w.show();
   // Need for double number dot instead of comma
   setlocale(LC_NUMERIC, "C");

@@ -4,14 +4,17 @@
 /// @param fd open file descriptor
 /// @param amount_polygons
 /// @param polygons vertecies what needs to connect
-void s21::Model::GetPolygons(FILE* fd, int amount_polygons, polygon_t* polygons) {
+void s21::Model::GetPolygons(FILE* fd, int amount_polygons,
+                             polygon_t* polygons) {
   int vertex = 0;
   Error_e flag = SUCCESS;
   int first_vertex_polygon = 0;
   int i = 0;
-  size_t length = 512;
-  char* line = (char*)calloc(SIZE_BUFFER, sizeof(char));
-  polygons->vertices = (int*)malloc(sizeof(int) * 1);
+  // size_t length = 512;
+  char* line = new char[SIZE_BUFFER];
+  polygons->vertices = new int[1];
+  // char* line = (char*)calloc(SIZE_BUFFER, sizeof(char));
+  // polygons->vertices = (int*)malloc(sizeof(int) * 1);
   char* pt_line = NULL;
   int vertex_in_facet = 0;
   int index_vertex = 1;
@@ -65,9 +68,9 @@ void s21::Model::GetPolygons(FILE* fd, int amount_polygons, polygon_t* polygons)
 /// @return code errors
 int s21::Model::GetVertices(FILE* fd, int amount_vertices, double** vertices) {
   Error_e code = SUCCESS;
-  size_t length = 512;
-  char* line = (char*)calloc(SIZE_BUFFER, sizeof(char));
-  (*vertices) = (double*)malloc(sizeof(double) * 1);
+  char* line = new char[SIZE_BUFFER];
+  (*vertices) = new double[1];
+
   char* pt_line = NULL;
   int size = 1;
   int i = 0;
@@ -97,7 +100,8 @@ int s21::Model::GetVertices(FILE* fd, int amount_vertices, double** vertices) {
   return (code);
 }
 
-/// @brief return count vertices in one line obj file f 1 2 4 -> 12 24 41 = 6 symbols
+/// @brief return count vertices in one line obj file f 1 2 4 -> 12 24 41 = 6
+/// symbols
 /// @param pt_str line
 /// @return
 int s21::Model::GetCountVertexPolygon(char* pt_str) {
@@ -129,10 +133,9 @@ int s21::Model::GetParseData(data_t* parse_data, const char* pathtofile) {
   if (fd == NULL) {
     fprintf(stderr, "Error not have been file \n");
     return ERROR_FILE;
-    exit(1);
   }
-  size_t length = 512;
-  char* line = (char*)calloc(SIZE_BUFFER, sizeof(char));
+  char* line = new char[SIZE_BUFFER];
+  // char* line = (char*)calloc(SIZE_BUFFER, sizeof(char));
   while (getline(&line, &length, fd) != -1) {
     if (line[0] == 'v' && line[1] == ' ') {
       parse_data->amount_vertices++;

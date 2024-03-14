@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(viewer VERSION 0.1 LANGUAGES CXX C)
+project(viewer VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -28,13 +28,13 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS)
 
 set(PROJECT_SOURCES
 
-        view/main.cpp
-        view/view.cpp
+        view/main.cc
+        view/view.cc
         view/view.h
         view/view.ui
 
         view/glwidget.h
-        view/glwidget.cpp
+        view/glwidget.cc
 
         model/parser.h
         model/parser.cc

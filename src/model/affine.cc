@@ -4,7 +4,8 @@
 /// @param amount_vertices
 /// @param vertices array vectors
 /// @param value on what need move
-void s21::Model::translateX(int amount_vertices, double** vertices, double value) {
+void s21::Model::translateX(int amount_vertices, double** vertices,
+                            double value) {
   int i = 0;
   int j = 0;
   while (i < amount_vertices) {
@@ -18,7 +19,8 @@ void s21::Model::translateX(int amount_vertices, double** vertices, double value
 /// @param amount_vertices
 /// @param vertices array vectors
 /// @param value on what need move
-void s21::Model::translateY(int amount_vertices, double** vertices, double value) {
+void s21::Model::translateY(int amount_vertices, double** vertices,
+                            double value) {
   int i = 0;
   int j = 1;
   while (i < amount_vertices) {
@@ -32,7 +34,8 @@ void s21::Model::translateY(int amount_vertices, double** vertices, double value
 /// @param amount_vertices
 /// @param vertices array vectors
 /// @param value on what need move
-void s21::Model::translateZ(int amount_vertices, double** vertices, double value) {
+void s21::Model::translateZ(int amount_vertices, double** vertices,
+                            double value) {
   int i = 0;
   int j = 2;
   while (i < amount_vertices) {
@@ -134,7 +137,8 @@ void s21::Model::ScaleShape(int amount_vertices, double** vertices, int scale) {
 /// @param amount_vertices
 /// @param vertices
 /// @param scale
-void s21::Model::DivideShape(int amount_vertices, double** vertices, int scale) {
+void s21::Model::DivideShape(int amount_vertices, double** vertices,
+                             int scale) {
   int i = 0;
 
   while (i < amount_vertices * 3) {
