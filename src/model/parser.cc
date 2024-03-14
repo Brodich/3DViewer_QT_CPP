@@ -27,6 +27,7 @@ void s21::Model::GetPolygons(FILE* fd, int amount_polygons,
       vertex_in_facet = GetCountVertexPolygon(line);
       polygons->number_of_vertices += vertex_in_facet;
       if (polygons->number_of_vertices > 0)
+        // polygons->vertices = new int[polygons->number_of_vertices];
         polygons->vertices = (int*)realloc(
             polygons->vertices, polygons->number_of_vertices * sizeof(int));
       while (*pt_line != 0) {
@@ -81,6 +82,7 @@ int s21::Model::GetVertices(FILE* fd, int amount_vertices, double** vertices) {
     if (line[0] == 'v' && line[1] == ' ') {
       int xyz = 0;
       size += 3;
+      // (*vertices) = new double[size];
       (*vertices) = (double*)realloc((*vertices), size * sizeof(double));
       while (xyz != 3 && *pt_line != '\n') {
         if ((*pt_line >= '0' && *pt_line <= '9') || *pt_line == '-') {

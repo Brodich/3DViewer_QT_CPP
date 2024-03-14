@@ -63,7 +63,7 @@ TEST(parser_array, 1) {
   // ASSERT_EQ(busines_logic.GetParseData(&parse_data, pathtofile), 1);
 }
 
-TEST(parser_polygon, 1) {
+TEST(parser_polygon_translate_rotate, 1) {
   Model busines_logic;
   Model::data_t parse_data = {0};
 
@@ -73,7 +73,7 @@ TEST(parser_polygon, 1) {
   FILE* fd;
   fd = fopen(pathtofile, "r");
   busines_logic.GetParseData(&parse_data, pathtofile);
-  //    get_vertices(fd, parse_data.amount_vertices, &vertices);
+  busines_logic.GetVertices(fd, parse_data.amount_vertices, &vertices);
   busines_logic.GetPolygons(fd, parse_data.amount_polygons, &polygons);
 
   ASSERT_EQ(polygons.vertices[0], 0);
@@ -106,10 +106,120 @@ TEST(parser_polygon, 1) {
   ASSERT_EQ(polygons.vertices[27], 6);
   ASSERT_EQ(polygons.vertices[28], 6);
   ASSERT_EQ(polygons.vertices[29], 2);
+
+  ASSERT_NEAR(vertices[0], 0, 1e-6);
+  ASSERT_NEAR(vertices[1], 0, 1e-6);
+  ASSERT_NEAR(vertices[2], 0, 1e-6);
+  ASSERT_NEAR(vertices[3], 0, 1e-6);
+  ASSERT_NEAR(vertices[4], 0, 1e-6);
+  ASSERT_NEAR(vertices[5], 1, 1e-6);
+  ASSERT_NEAR(vertices[6], 0, 1e-6);
+
+  busines_logic.translateX(parse_data.amount_vertices, &vertices, +2);
+
+  ASSERT_NEAR(vertices[0], 2, 1e-6);
+  ASSERT_NEAR(vertices[1], 0, 1e-6);
+  ASSERT_NEAR(vertices[2], 0, 1e-6);
+  ASSERT_NEAR(vertices[3], 2, 1e-6);
+  ASSERT_NEAR(vertices[4], 0, 1e-6);
+  ASSERT_NEAR(vertices[5], 1, 1e-6);
+  ASSERT_NEAR(vertices[6], 2, 1e-6);
+
+  busines_logic.translateY(parse_data.amount_vertices, &vertices, -2);
+
+  ASSERT_NEAR(vertices[0], 2, 1e-6);
+  ASSERT_NEAR(vertices[1], -2, 1e-6);
+  ASSERT_NEAR(vertices[2], 0, 1e-6);
+  ASSERT_NEAR(vertices[3], 2, 1e-6);
+  ASSERT_NEAR(vertices[4], -2, 1e-6);
+  ASSERT_NEAR(vertices[5], 1, 1e-6);
+  ASSERT_NEAR(vertices[6], 2, 1e-6);
+
+  busines_logic.translateZ(parse_data.amount_vertices, &vertices, 9);
+
+  ASSERT_NEAR(vertices[0], 2, 1e-6);
+  ASSERT_NEAR(vertices[1], -2, 1e-6);
+  ASSERT_NEAR(vertices[2], 9, 1e-6);
+  ASSERT_NEAR(vertices[3], 2, 1e-6);
+  ASSERT_NEAR(vertices[4], -2, 1e-6);
+  ASSERT_NEAR(vertices[5], 10, 1e-6);
+  ASSERT_NEAR(vertices[6], 2, 1e-6);
+  // rotate
+  busines_logic.rotateX(parse_data.amount_vertices, &vertices, 180);
+  ASSERT_NEAR(vertices[0], 2, 1e-6);
+  ASSERT_NEAR(vertices[1], 2, 1e-6);
+  ASSERT_NEAR(vertices[2], -9, 1e-6);
+  ASSERT_NEAR(vertices[3], 2, 1e-6);
+  ASSERT_NEAR(vertices[4], 2, 1e-6);
+  ASSERT_NEAR(vertices[5], -10, 1e-6);
+
+  busines_logic.rotateY(parse_data.amount_vertices, &vertices, 180);
+  ASSERT_NEAR(vertices[0], -2, 1e-6);
+  ASSERT_NEAR(vertices[1], 2, 1e-6);
+  ASSERT_NEAR(vertices[2], 9, 1e-6);
+  ASSERT_NEAR(vertices[3], -2, 1e-6);
+  ASSERT_NEAR(vertices[4], 2, 1e-6);
+  ASSERT_NEAR(vertices[5], 10, 1e-6);
+
+  busines_logic.rotateZ(parse_data.amount_vertices, &vertices, 180);
+  ASSERT_NEAR(vertices[0], 2, 1e-6);
+  ASSERT_NEAR(vertices[1], -2, 1e-6);
+  ASSERT_NEAR(vertices[2], 9, 1e-6);
+  ASSERT_NEAR(vertices[3], 2, 1e-6);
+  ASSERT_NEAR(vertices[4], -2, 1e-6);
+  ASSERT_NEAR(vertices[5], 10, 1e-6);
+
+  // Scale shape
+  busines_logic.ScaleShape(parse_data.amount_vertices, &vertices, 100);
+  ASSERT_NEAR(vertices[0], 20, 1e-6);
+  ASSERT_NEAR(vertices[1], -20, 1e-6);
+  ASSERT_NEAR(vertices[2], 90, 1e-6);
+  ASSERT_NEAR(vertices[3], 20, 1e-6);
+  ASSERT_NEAR(vertices[4], -20, 1e-6);
+  ASSERT_NEAR(vertices[5], 100, 1e-6);
+
+  // Divide shape
+  busines_logic.DivideShape(parse_data.amount_vertices, &vertices, 100);
+  ASSERT_NEAR(vertices[0], 2, 1e-6);
+  ASSERT_NEAR(vertices[1], -2, 1e-6);
+  ASSERT_NEAR(vertices[2], 9, 1e-6);
+  ASSERT_NEAR(vertices[3], 2, 1e-6);
+  ASSERT_NEAR(vertices[4], -2, 1e-6);
+  ASSERT_NEAR(vertices[5], 10, 1e-6);
+
   free(polygons.vertices);
   free(vertices);
   fclose(fd);
 }
+
+// TEST(rotate, 1) {
+//   Model busines_logic;
+//   Model::data_t parse_data = {0};
+
+//   char const* pathtofile = "assets/test.obj";
+//   Model::polygon_t polygons;  // free
+//   double* vertices = NULL;    // free
+//   FILE* fd;
+//   fd = fopen(pathtofile, "r");
+//   busines_logic.GetParseData(&parse_data, pathtofile);
+//   busines_logic.GetVertices(fd, parse_data.amount_vertices, &vertices);
+//   busines_logic.GetPolygons(fd, parse_data.amount_polygons, &polygons);
+
+//   busines_logic.rotateX(parse_data.amount_vertices, &vertices, 180);
+
+//   ASSERT_NEAR(vertices[0], 0, 1e-6);
+//   ASSERT_NEAR(vertices[1], 0, 1e-6);
+//   ASSERT_NEAR(vertices[2], 0, 1e-6);
+//   ASSERT_NEAR(vertices[3], 0, 1e-6);
+//   ASSERT_NEAR(vertices[4], 0, 1e-6);
+//   ASSERT_NEAR(vertices[5], -1, 1e-6);
+//   // polygons.
+
+//   free(polygons.vertices);
+//   //   free(polygons);
+//   free(vertices);
+//   fclose(fd);
+// }
 
 TEST(max_vertex, 1) {
   Model busines_logic;

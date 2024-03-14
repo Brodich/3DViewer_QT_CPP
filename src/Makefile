@@ -3,7 +3,8 @@ MKFILE_PATH := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 TARGET_DIR  := $(MKFILE_PATH)/build
 TARGET      := $(TARGET_DIR)/3DViewer
 SRC_DIR     := $(MKFILE_PATH)
-SRC_STRIPPED:= model/parser.c 
+# SRC_STRIPPED:= model/parser.c 
+SRC_MODEL := model/*.cc
 SRC         := $(SRC_DIR)/$(SRC_STRIPPED)
 CFLAGS      := --debug -Wall -Wextra -g
 TEST_NAME = test_model
@@ -22,9 +23,10 @@ endif
 
 
 all: clang install 
-	-@mkdir $(TARGET_DIR)
-	gcc $(SRC) $(CFLAGS) -o $(TARGET)
-	build/3DViewer
+
+# -@mkdir $(TARGET_DIR)
+# gcc $(SRC) $(CFLAGS) -o $(TARGET)
+# build/3DViewer
 
 %.o: %.cc
 	$(CC) -c -o $@ $<
@@ -55,19 +57,19 @@ uninstall:
 .PHONY: test 
 # tests: model/parser.o tests/$(TEST_NAME).o
 tests: clang
-	$(CC) model/parser.cc tests/$(TEST_NAME).cc $(FLAGS) $(OTHER_LIBS) -o tests/$(TEST_NAME)
+	$(CC) $(SRC_MODEL) tests/$(TEST_NAME).cc $(FLAGS) $(OTHER_LIBS) -o tests/$(TEST_NAME)
 	tests/$(TEST_NAME)
 # -@$(CC) model/parser.o tests/$(TEST_NAME).o $(FLAGS) -o $(TEST_NAME)
 
 
-# $(CC)  model/parser.cc tests/$(TEST_NAME).cc $(FLAGS) --coverage -o $(TEST_NAME)
+# $(CC)  $(SRC_MODEL) tests/$(TEST_NAME).cc $(FLAGS) --coverage -o $(TEST_NAME)
 gcov_report: clang
-	$(CC) -w model/parser.cc tests/$(TEST_NAME).cc  $(OTHER_LIBS) $(GCOVFLAGS) -o test
+	$(CC) -w $(SRC_MODEL) tests/$(TEST_NAME).cc  $(OTHER_LIBS) $(GCOVFLAGS) -o test
 	./test
 ifeq ($(OS), Linux)
 	lcov --no-external -t test -o rep.info -c -d .
 else 
-	lcov --ignore-errors mismatch --no-external -t test -o rep.info -c -d .
+	lcov --no-external -t test -o rep.info -c -d .
 endif
 	genhtml -o report rep.info
 	open ./report/index.html
