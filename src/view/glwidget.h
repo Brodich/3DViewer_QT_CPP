@@ -1,5 +1,5 @@
-#ifndef GLWIDGET_H
-#define GLWIDGET_H
+#ifndef CPP_3DVIEWER_V2_GLWIDGET_H_
+#define CPP_3DVIEWER_V2_GLWIDGET_H_
 
 #include <QOpenGLFunctions>
 #include <QOpenGLWidget>
@@ -8,22 +8,20 @@
 #define GL_SILENCE_DEPRECATION
 #define DIMENTION_COUNT 3
 
+#include "../controller/controller.h"
 #include "../model/parser.h"
-//#include "mainwindow.h"
 
 class glwidget : public QOpenGLWidget {
   Q_OBJECT
+ private:
+  s21::Controller* m_controll;
 
  public:
   glwidget(QWidget* parent = NULL) : QOpenGLWidget(parent) {}
 
-  //  void  ChangeBackColor(QColor color);
-  //  void  ChangeLineColor(QColor color);
-  //  void  ChangeVertexColor(QColor color);
-
   using QOpenGLWidget::QOpenGLWidget;
   void paint();
-
+  //    s21::Controller::
   s21::Model::data_t parse_data = {0};
   s21::Model::polygon_t polygons = {0};
   double* vertices = NULL;
@@ -42,11 +40,6 @@ class glwidget : public QOpenGLWidget {
 
   QSettings setting;
 
-  //  QColor color_back;
-  //  QColor color_line;
-  //  QColor color_vertex;
-
-  //  float back_r = 0.9f, back_g = 0.7f, back_b = 0.941f;
   float back_r = 0.0f, back_g = 0.0f, back_b = 0.0f;
   float line_r = 1.0f, line_g = 1.0f, line_b = 1.0f;
   float vertex_r = 1.0f, vertex_g = 1.0f, vertex_b = 1.0f;
@@ -57,4 +50,4 @@ class glwidget : public QOpenGLWidget {
   void paintGL() override;
 };
 
-#endif  // GLWIDGET_H
+#endif  // CPP_3DVIEWER_V2_GLWIDGET_H_

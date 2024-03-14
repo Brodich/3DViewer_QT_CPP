@@ -27,7 +27,6 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS)
 
 
 set(PROJECT_SOURCES
-
         view/main.cc
         view/view.cc
         view/view.h
@@ -40,7 +39,6 @@ set(PROJECT_SOURCES
         model/parser.cc
 
         model/affine.cc
-
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

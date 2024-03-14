@@ -1,5 +1,5 @@
-#ifndef CONTROLLER
-#define CONTROLLER
+#ifndef CPP_3DVIEWER_V2_CONTROLLER_H_
+#define CPP_3DVIEWER_V2_CONTROLLER_H_
 
 #include "../model/parser.h"
 
@@ -7,6 +7,8 @@ namespace s21 {
 class Controller {
  private:
   s21::Model* pt_business_log = nullptr;
+  s21::Model::data_t parse_data = {0};
+  s21::Model::polygon_t polygons = {0};
 
  public:
   Controller(s21::Model* business_logic) : pt_business_log(business_logic) {}
@@ -30,4 +32,4 @@ class Controller {
 };
 }  // namespace s21
 
-#endif
+#endif  // CPP_3DVIEWER_V2_CONTROLLER_H_

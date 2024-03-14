@@ -11,7 +11,6 @@ OTHER_LIBS = -lgtest -lgcov -fno-elide-constructors
 GCOVFLAGS = -L. --coverage
 
 
-
 ifeq ($(OS), Linux)
 	FLAGS = -lcheck -lm -lpthread -lrt -lsubunit
 	INSTALL_OS = ./viewer
@@ -19,7 +18,6 @@ else
 	FLAGS = -lcheck -lm
 	INSTALL_OS = viewer.app/Contents/MacOS/viewer
 endif
-
 
 all: clang install 
 	-@mkdir $(TARGET_DIR)
@@ -53,14 +51,10 @@ uninstall:
 	rm -rf build/ *.tar.gz
 
 .PHONY: test 
-# tests: model/parser.o tests/$(TEST_NAME).o
 tests: clang
 	$(CC) model/parser.cc tests/$(TEST_NAME).cc $(FLAGS) $(OTHER_LIBS) -o tests/$(TEST_NAME)
 	tests/$(TEST_NAME)
-# -@$(CC) model/parser.o tests/$(TEST_NAME).o $(FLAGS) -o $(TEST_NAME)
 
-
-# $(CC)  model/parser.cc tests/$(TEST_NAME).cc $(FLAGS) --coverage -o $(TEST_NAME)
 gcov_report: clang
 	$(CC) -w model/parser.cc tests/$(TEST_NAME).cc  $(OTHER_LIBS) $(GCOVFLAGS) -o test
 	./test
@@ -79,7 +73,7 @@ dvi:
 	open html/index.html
 
 dist: clean
-	tar -cvzf 3DViewer.tar.gz Makefile CMakeLists.txt model/ view/ 
+	tar -cvzf 3DViewer.tar.gz Makefile CMakeLists.txt model/ view/ controller/ assets/ tests/ documentation/
 
 clang:
 	-@clang-format -style=google -i view/*.cc view/*.h

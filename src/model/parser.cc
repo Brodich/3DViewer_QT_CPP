@@ -7,14 +7,11 @@
 void s21::Model::GetPolygons(FILE* fd, int amount_polygons,
                              polygon_t* polygons) {
   int vertex = 0;
-  Error_e flag = SUCCESS;
+  Error_e flag = Error_e::SUCCESS;
   int first_vertex_polygon = 0;
   int i = 0;
-  // size_t length = 512;
   char* line = new char[SIZE_BUFFER];
-  polygons->vertices = new int[1];
-  // char* line = (char*)calloc(SIZE_BUFFER, sizeof(char));
-  // polygons->vertices = (int*)malloc(sizeof(int) * 1);
+  polygons->vertices = (int*)malloc(sizeof(int) * 1);
   char* pt_line = NULL;
   int vertex_in_facet = 0;
   int index_vertex = 1;
@@ -32,10 +29,9 @@ void s21::Model::GetPolygons(FILE* fd, int amount_polygons,
       while (*pt_line != 0) {
         if (*pt_line >= '0' && *pt_line <= '9') {
           polygons->vertices[vertex] = strtol(pt_line, &pt_line, 10) - 1;
-
-          if (flag == SUCCESS) {
+          if (flag == Error_e::SUCCESS) {
             first_vertex_polygon = polygons->vertices[vertex];
-            flag = FAIL;
+            flag = Error_e::FAIL;
           } else if (index_vertex < vertex_in_facet) {
             polygons->vertices[vertex + 1] = polygons->vertices[vertex];
             index_vertex++;
@@ -54,11 +50,11 @@ void s21::Model::GetPolygons(FILE* fd, int amount_polygons,
         vertex++;
       }
       index_vertex = 1;
-      flag = SUCCESS;
+      flag = Error_e::SUCCESS;
       i++;
     }
   }
-  free(line);
+  delete[] line;
 }
 
 /// @brief fill array coordinates xyz
@@ -67,10 +63,9 @@ void s21::Model::GetPolygons(FILE* fd, int amount_polygons,
 /// @param vertices array coordinates xyz
 /// @return code errors
 int s21::Model::GetVertices(FILE* fd, int amount_vertices, double** vertices) {
-  Error_e code = SUCCESS;
+  Error_e code = Error_e::SUCCESS;
   char* line = new char[SIZE_BUFFER];
-  (*vertices) = new double[1];
-
+  (*vertices) = (double*)malloc(sizeof(double) * 1);
   char* pt_line = NULL;
   int size = 1;
   int i = 0;
@@ -91,13 +86,14 @@ int s21::Model::GetVertices(FILE* fd, int amount_vertices, double** vertices) {
         pt_line++;
       }
       if (xyz != 3) {
-        code = FAIL;
+        code = Error_e::FAIL;
       }
       i++;
     }
   }
-  free(line);
-  return (code);
+  delete[] line;
+  //  free(line);
+  return static_cast<int>(code);
 }
 
 /// @brief return count vertices in one line obj file f 1 2 4 -> 12 24 41 = 6
@@ -135,7 +131,6 @@ int s21::Model::GetParseData(data_t* parse_data, const char* pathtofile) {
     return ERROR_FILE;
   }
   char* line = new char[SIZE_BUFFER];
-  // char* line = (char*)calloc(SIZE_BUFFER, sizeof(char));
   while (getline(&line, &length, fd) != -1) {
     if (line[0] == 'v' && line[1] == ' ') {
       parse_data->amount_vertices++;

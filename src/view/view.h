@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef CPP_3DVIEWER_V2_VIEW_H_
+#define CPP_3DVIEWER_V2_VIEW_H_
 
 #include <locale.h>
 
@@ -8,15 +8,7 @@
 #include <QFileDialog>
 #include <QMainWindow>
 
-//#include "glwidget.h"
-//#include "../model/parser.h"
 #include "../controller/controller.h"
-
-//#define DIMENTION_COUNT 3
-
-// extern "C" {
-//#include "../back/parser.h"
-// }
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -66,9 +58,11 @@ class View : public QMainWindow {
 
   void on_line_width_slider_valueChanged(int value);
 
+  void on_pushButton_clicked();
+
  private:
   Ui::View* ui;
   s21::Controller* m_controll;
 };
 }  // namespace s21
-#endif  // MAINWINDOW_H
+#endif  // CPP_3DVIEWER_V2_CONTROLLER_H_

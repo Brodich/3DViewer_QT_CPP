@@ -5,13 +5,7 @@
 s21::View::View(QWidget* parent) : QMainWindow(parent), ui(new Ui::View) {
   ui->setupUi(this);
 
-  //  data_t parse_data = {0};
   QSettings settings("Team21", "3DViewer1.0");
-  //  char const* pathtofile =
-  //      "../src/assets/square.obj";
-  // char* pathtofile = "assets/test.obj";
-  //  char const* pathtofile =
-  //      "/Users/ngocgrag/Brodich/3DViewer-in-C-QT/src/assets/cube2.obj";
 
   connect(ui->translate_slider_x, SIGNAL(valueChanged(int)), ui->translate_x,
           SLOT(setValue(int)));
@@ -103,14 +97,6 @@ void s21::View::save_settings() {
                                     ui->modelWindow->central_type);
 
   // color
-
-  //  ui->modelWindow->setting.setValue("back_color",
-  //  ui->modelWindow->color_back);
-  //  ui->modelWindow->setting.setValue("line_color",
-  //  ui->modelWindow->color_line);
-  //  ui->modelWindow->setting.setValue("vertex_color",
-  //  ui->modelWindow->color_vertex);
-
   ui->modelWindow->setting.setValue("back_red", ui->modelWindow->back_r);
   ui->modelWindow->setting.setValue("back_green", ui->modelWindow->back_g);
   ui->modelWindow->setting.setValue("back_blue", ui->modelWindow->back_b);
@@ -125,19 +111,6 @@ void s21::View::save_settings() {
 }
 
 void s21::View::restore_settings() {
-  //  ui->translate_x->setValue(
-  //      ui->modelWindow->setting.value("translate_x").toInt());
-  //  ui->translate_y->setValue(
-  //      ui->modelWindow->setting.value("translate_y").toInt());
-  //  ui->translate_z->setValue(
-  //      ui->modelWindow->setting.value("translate_z").toInt());
-
-  //  ui->rotate_x->setValue(ui->modelWindow->setting.value("rotate_x").toInt());
-  //  ui->rotate_y->setValue(ui->modelWindow->setting.value("rotate_y").toInt());
-  //  ui->rotate_z->setValue(ui->modelWindow->setting.value("rotate_z").toInt());
-
-  //  ui->scale->setValue(ui->modelWindow->setting.value("scale").toInt());
-
   if (ui->modelWindow->setting.value("line_style").toBool() == true) {
     ui->line_style_solid->setChecked(true);
   } else {
@@ -195,14 +168,8 @@ void s21::View::restore_settings() {
 void s21::View::on_open_file_clicked() {
   QString filePath = QFileDialog::getOpenFileName(
       this, "Open File", QDir::homePath(), "All Files (*.obj)");
-  //  restore_settings();
-  //  s21::Controller controll;
-
   std::string stdstrPath = filePath.toStdString();
   const char* pathtofile = stdstrPath.c_str();
-
-  //    char const* pathtofile =
-  //    "/Users/ngocgrag/Brodich/3DViewer-in-C-QT/src/assets/Squirrel.obj";
 
   FILE* fd;
   fd = fopen(pathtofile, "r");
@@ -212,17 +179,7 @@ void s21::View::on_open_file_clicked() {
     free(ui->modelWindow->polygons.vertices);
 
     QFileInfo fileInfo(pathtofile);
-    //    QString extension = fileInfo.suffix();
-    //    if (extension != "obj") {
-    //      QMessageBox msgBox;
-    //      msgBox.setText("This is not obj file.\n Select obj file.");
-    //      msgBox.exec();
-    //    } else {
     ui->label_name->setText(fileInfo.fileName());
-    ui->label_vertices->setText(
-        QString::number(ui->modelWindow->parse_data.amount_vertices));
-    ui->label_polygons->setText(
-        QString::number(ui->modelWindow->parse_data.amount_polygons));
 
     m_controll->GetParseData(&ui->modelWindow->parse_data, pathtofile);
     m_controll->GetVertices(fd, ui->modelWindow->parse_data.amount_vertices,
@@ -230,14 +187,17 @@ void s21::View::on_open_file_clicked() {
     m_controll->GetPolygons(fd, ui->modelWindow->parse_data.amount_polygons,
                             &ui->modelWindow->polygons);
 
+    ui->label_vertices->setText(
+        QString::number(ui->modelWindow->parse_data.amount_vertices));
+    ui->label_polygons->setText(
+        QString::number(ui->modelWindow->parse_data.amount_polygons));
+
     fclose(fd);
 
     ui->modelWindow->size =
         m_controll->GetMaxVector(ui->modelWindow->vertices,
                                  ui->modelWindow->parse_data.amount_vertices) *
-        3.;
-
-    //    }
+        4.;
   }
 }
 
@@ -324,12 +284,6 @@ void s21::View::on_line_width_valueChanged(int arg1) {
 }
 
 void s21::View::on_color_back_clicked() {
-  //    QColorDialog color_dialog;
-  //    color_dialog.setWindowTitle("Vertex color");
-  //    if (color_dialog.exec() == QColorDialog::Accepted) {
-  //        ui->modelWindow->ChangeBackColor(color_dialog.selectedColor());
-  //    }
-
   QColor color = QColorDialog::getColor();
   if (color.isValid()) {
     ui->modelWindow->back_r = color.red() / 255.0f;
@@ -339,13 +293,6 @@ void s21::View::on_color_back_clicked() {
 }
 
 void s21::View::on_color_line_clicked() {
-  //    QColorDialog color_dialog;
-  //    color_dialog.setWindowTitle("Vertex color");
-  //    if (color_dialog.exec() == QColorDialog::Accepted) {
-  //        ui->modelWindow->ChangeLineColor(color_dialog.selectedColor());
-  //    }
-  //    qDebug() << "on_color_line_clicked\n";
-
   QColor color = QColorDialog::getColor();
   if (color.isValid()) {
     ui->modelWindow->line_r = color.red() / 255.0f;
@@ -355,12 +302,6 @@ void s21::View::on_color_line_clicked() {
 }
 
 void s21::View::on_color_vertex_clicked() {
-  //    QColorDialog color_dialog;
-  //    color_dialog.setWindowTitle("Vertex color");
-  //    if (color_dialog.exec() == QColorDialog::Accepted) {
-  //        ui->modelWindow->ChangeVertexColor(color_dialog.selectedColor());
-  //    }
-  //    qDebug() << "on_color_vertex_clicked\n";
   QColor color = QColorDialog::getColor();
   if (color.isValid()) {
     ui->modelWindow->vertex_r = color.red() / 255.0f;
@@ -412,4 +353,10 @@ void s21::View::on_screenshot_clicked() {
 void s21::View::on_line_width_slider_valueChanged(int value) {
   ui->modelWindow->line_width = value;
   ui->modelWindow->update();
+}
+
+void s21::View::on_pushButton_clicked() {
+  QDesktopServices::openUrl(
+      QUrl("https://allmanga.to/bangumi/wm2zBXuqhdKM7L7AL/"
+           "serial-experiments-lain/p-1-sub"));
 }

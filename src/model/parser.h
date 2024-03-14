@@ -1,5 +1,5 @@
-#ifndef CPP_3DViewer_v2_Model_H_
-#define CPP_3DViewer_v2_Model_H_
+#ifndef CPP_3DVIEWER_V2_MODEL_H_
+#define CPP_3DVIEWER_V2_MODEL_H_
 
 #include <math.h>
 #include <stdio.h>
@@ -35,9 +35,6 @@ class Model {
   void GetPolygons(FILE* fd, int amount_polygons, polygon_t* polygons);
   int GetCountVertexPolygon(char* pt_str);
 
-  void ft_print_vertices(double* vertices, int amount_polygons);
-  void ft_print_polygons(polygon_t polygons);
-
   double GetMaxVector(double* vertices, int amount_polygons);
 
   void translateX(int amount_vertices, double** vertices, double value);
@@ -51,13 +48,13 @@ class Model {
   void ScaleShape(int amount_vertices, double** vertices, int scale);
   void DivideShape(int amount_vertices, double** vertices, int scale);
 
-  typedef enum Code_errors {
+  enum class Error_e {
     SUCCESS = 1,
     VERTEX_MISS = -1,
     INCORRECT_MATRIX = -1,
     FAIL = -1
-  } Error_e;
+  };
 };
 }  // namespace s21
 
-#endif  // CPP_3DViewer_v2_Model_H_
+#endif  // CPP_3DVIEWER_V2_MODEL_H_
